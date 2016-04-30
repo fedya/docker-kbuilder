@@ -1,4 +1,5 @@
 #!/bin/bash
+GCC_TOOLSET="5.3-2016.02"
 
 build_kernel() {
 # go to root dir
@@ -15,13 +16,13 @@ cp -rv /root/armv7-multiplatform/deploy /tmp/
 build_uboot() {
 # go to root dir
 cd
-wget -c https://releases.linaro.org/components/toolchain/binaries/5.2-2015.11/arm-linux-gnueabihf/gcc-linaro-5.2-2015.11-x86_64_arm-linux-gnueabihf.tar.xz
-tar xf gcc-linaro-5.2-2015.11-x86_64_arm-linux-gnueabihf.tar.xz
-export CC=`pwd`/gcc-linaro-5.2-2015.11-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
+wget -c https://releases.linaro.org/components/toolchain/binaries/$GCC_TOOLSET/arm-linux-gnueabihf/gcc-linaro-$GCC_TOOLSET-x86_64_arm-linux-gnueabihf.tar.xz
+tar xf gcc-linaro-$GCC_TOOLSET-x86_64_arm-linux-gnueabihf.tar.xz
+export CC=`pwd`/gcc-linaro-$GCC_TOOLSET-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
 git clone https://github.com/u-boot/u-boot
 pushd u-boot
-git checkout v2016.01 -b tmp
-wget -c https://rcn-ee.com/repos/git/u-boot-patches/v2016.01/0001-wandboard-uEnv.txt-bootz-n-fixes.patch
+git checkout v2016.03 -b tmp
+wget -c https://rcn-ee.com/repos/git/u-boot-patches/v2016.03/0001-wandboard-uEnv.txt-bootz-n-fixes.patch
 patch -p1 < 0001-wandboard-uEnv.txt-bootz-n-fixes.patch
 make ARCH=arm CROSS_COMPILE=${CC} distclean
 make ARCH=arm CROSS_COMPILE=${CC} wandboard_defconfig
