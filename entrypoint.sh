@@ -1,5 +1,6 @@
 #!/bin/bash
-GCC_TOOLSET="5.3-2016.02"
+GCC_TOOLSET="5.3-2016.05"
+UBOOT_VER="v2017.01"
 
 build_kernel() {
 # go to root dir
@@ -21,8 +22,8 @@ tar xf gcc-linaro-$GCC_TOOLSET-x86_64_arm-linux-gnueabihf.tar.xz
 export CC=`pwd`/gcc-linaro-$GCC_TOOLSET-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
 git clone https://github.com/u-boot/u-boot
 pushd u-boot
-git checkout v2016.03 -b tmp
-wget -c https://rcn-ee.com/repos/git/u-boot-patches/v2016.03/0001-wandboard-uEnv.txt-bootz-n-fixes.patch
+git checkout $UBOOT_VER -b tmp
+wget -c https://rcn-ee.com/repos/git/u-boot-patches/$UBOOT_VER/0001-wandboard-uEnv.txt-bootz-n-fixes.patch
 patch -p1 < 0001-wandboard-uEnv.txt-bootz-n-fixes.patch
 make ARCH=arm CROSS_COMPILE=${CC} distclean
 make ARCH=arm CROSS_COMPILE=${CC} wandboard_defconfig
