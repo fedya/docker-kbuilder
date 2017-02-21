@@ -1,6 +1,9 @@
 #!/bin/bash
-GCC_TOOLSET="5.3-2016.05"
+GCC_BRANCH="6.3"
+GCC_YM="2017.02"
+GCC_MINOR="1"
 UBOOT_VER="v2017.01"
+GCC_ARCHIVE="gcc-linaro-${GCC_BRANCH}.${GCC_MINOR}-${GCC_YM}-x86_64_arm-linux-gnueabihf"
 
 build_kernel() {
 # go to root dir
@@ -17,9 +20,9 @@ cp -rv /root/armv7-multiplatform/deploy /tmp/
 build_uboot() {
 # go to root dir
 cd
-wget -c https://releases.linaro.org/components/toolchain/binaries/$GCC_TOOLSET/arm-linux-gnueabihf/gcc-linaro-$GCC_TOOLSET-x86_64_arm-linux-gnueabihf.tar.xz
-tar xf gcc-linaro-$GCC_TOOLSET-x86_64_arm-linux-gnueabihf.tar.xz
-export CC=`pwd`/gcc-linaro-$GCC_TOOLSET-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
+wget -c https://releases.linaro.org/components/toolchain/binaries/$GCC_BRANCH-$GCC_YM/arm-linux-gnueabihf/$GCC_ARCHIVE.tar.xz
+tar xf $GCC_ARCHIVE.tar.xz
+export CC=`pwd`/$GCC_ARCHIVE/bin/arm-linux-gnueabihf-
 git clone https://github.com/u-boot/u-boot
 pushd u-boot
 git checkout $UBOOT_VER -b tmp
